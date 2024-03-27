@@ -88,7 +88,7 @@ module.exports = {
     },
     getUsers: callBack => {
         pool.query(
-            `select id, name, gender, email, mobile, city, image from user`,
+            `select id, name, gender, email, mobile, city, image, userType from user`,
             [],
             (error, results, fields) => {
                 if(error) {
