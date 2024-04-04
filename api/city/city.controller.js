@@ -1,13 +1,13 @@
 const { 
-    createLocation, 
-    updateLocation, 
-    getLocation, 
-} = require("./location.service");
+    createCity, 
+    updateCity, 
+    getCity, 
+} = require("./city.service");
 
 module.exports = {
-    createLocation: (req, res) => {
+    createCity: (req, res) => {
         const body = req.body;
-        createLocation(body, (err, results) => {
+        createCity(body, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
@@ -20,9 +20,9 @@ module.exports = {
             })
         });
     },
-    updateLocation: (req, res) => {
+    updateCity: (req, res) => {
         const body = req.body;
-        updateLocation(body, (err, results) => {
+        updateCity(body, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
@@ -32,7 +32,7 @@ module.exports = {
             if(!results){
                 return res.status(200).json({
                     success : 0,
-                    message : "Failed to update location!"
+                    message : "Failed to update city!"
                 })
             }
             return res.status(200).json({
@@ -41,8 +41,8 @@ module.exports = {
             })
         })
     },
-    getLocation: (req, res) => {
-        getLocation((err, results) => {
+    getCity: (req, res) => {
+        getCity((err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,

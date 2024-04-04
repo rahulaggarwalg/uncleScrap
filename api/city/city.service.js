@@ -1,9 +1,9 @@
 const pool = require("../../config/database");
 
 module.exports = {
-    createLocation: (data, callBack) => {
+    createCity: (data, callBack) => {
         pool.query(
-            `insert into location(name, is_active) values(?,?)`,
+            `insert into city(name, is_active) values(?,?)`,
             [
                 data.name,
                 data.is_active
@@ -16,9 +16,9 @@ module.exports = {
             }
         );
     },
-    updateLocation: (data, callBack) => {
+    updateCity: (data, callBack) => {
         pool.query(
-            `update location set name=?, is_active=? where id = '${data.id}'`,
+            `update city set name=?, is_active=? where id = '${data.id}'`,
             [
                 data.name,
                 data.is_active
@@ -31,9 +31,9 @@ module.exports = {
             }
         );
     },
-    getLocation: callBack => {
+    getCity: callBack => {
         pool.query(
-            `select id, name, is_active, created_at from location`,
+            `select id, name, is_active, created_at from city`,
             [],
             (error, results, fields) => {
                 if(error) {
