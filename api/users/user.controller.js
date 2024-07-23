@@ -1,23 +1,73 @@
 const { 
     createUser, 
-    getUserByUserEmail,
-    getUserByAdminEmail,
-    updateUser, 
-    updatePassword,
-    forgotPassword,
+    sendOtp,
+    verifyOtp,
+    updateUser,   
+    logoutUser,
     getUsers, 
-    getUserByEmailId, 
-    deleteUser ,
+    getUserById, 
+    deleteUserById,
 } = require("./user.service");
-const { genSaltSync, hashSync, compareSync } = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+
+const createOtp = () => {
+    const randomNum = Math.random() * 9000;
+    const otp = Math.floor(1000 + randomNum);
+    return '8888';//otp;
+}
+
+const deliverOtp = (data) => {
+    return true;
+}
+
+const generate_token = (length) => {
+    var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
+    var b = [];  
+    for (var i=0; i<length; i++) {
+        var j = (Math.random() * (a.length-1)).toFixed(0);
+        b[i] = a[j];
+    }
+    return b.join("");
+}
 
 module.exports = {
     createUser: (req, res) => {
         const body = req.body;
-        const salt = genSaltSync(10);
-        body.password = hashSync('1234567890', salt);
+        body.otp = createOtp();
         createUser(body, (err, results) => {
+            if(err){
+                return res.status(500).json({
+                    success : 0,
+                    message : err
+                })
+            }
+            deliverOtp(body);
+            return res.status(200).json({
+                success : 1,
+                message : 'User created successfully!'
+            })
+        });
+    },
+    sendOtp: (req, res) => {
+        const body = req.body;
+        body.otp = createOtp();
+        sendOtp(body, (err, results) => {
+            if(err){
+                return res.status(500).json({
+                    success : 0,
+                    message : err
+                })
+            }
+            deliverOtp(body);
+            return res.status(200).json({
+                success : 1,
+                message : "OTP sent successfully!"
+            })
+        })
+    },
+    verifyOtp: (req, res) => {
+        const body = req.body;
+        body.token = generate_token(32);
+        verifyOtp(body, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
@@ -26,80 +76,22 @@ module.exports = {
             }
             return res.status(200).json({
                 success : 1,
-                data : results
+                message : "OTP verified successfully!",
+                token : body.token,
+                data: results
             })
-        });
-    },
-    login: (req, res) => {
-        const body = req.body;
-        getUserByUserEmail(body.email, (err, results) => {
-            if(err){
-                return res.status(500).json({
-                    success : 0,
-                    message : err
-                })
-            }
-            if(!results){
-                return res.status(200).json({
-                    success : 0,
-                    message : "Invalid email!"
-                })
-            }
-            const result = compareSync(body.password, results.password);
-            if(result){
-                results.password = undefined;
-                const jsonToken = sign({result : results}, process.env.HASH_KEY, {
-                    expiresIn: "1h"
-                });
-                return res.status(200).json({
-                    success : 1,
-                    message : "Login successfully!",
-                    token: jsonToken
-                })
-            }else{
-                return res.status(200).json({
-                    success : 0,
-                    message : "Invalid password!"
-                })
-            }
-        })
-    },
-    adminLogin: (req, res) => {
-        const body = req.body;
-        getUserByAdminEmail(body.email, (err, results) => {
-            if(err){
-                return res.status(500).json({
-                    success : 0,
-                    message : err
-                })
-            }
-            if(!results){
-                return res.status(200).json({
-                    success : 0,
-                    message : "Invalid email!"
-                })
-            }
-            const result = compareSync(body.password, results.password);
-            if(result){
-                results.password = undefined;
-                const jsonToken = sign({result : results}, process.env.HASH_KEY, {
-                    expiresIn: "1h"
-                });
-                return res.status(200).json({
-                    success : 1,
-                    message : "Login successfully!",
-                    token: jsonToken
-                })
-            }else{
-                return res.status(200).json({
-                    success : 0,
-                    message : "Invalid password!"
-                })
-            }
         })
     },
     updateUser: (req, res) => {
         const body = req.body;
+        body.image = req.files[0].filename; 
+        body.token = req.get("authorization").split(" ")[1];
+        if(!body.token){
+            return res.status(500).json({
+                success : 0,
+                message : 'Token not found!'
+            })
+        }
         updateUser(body, (err, results) => {
             if(err){
                 return res.status(500).json({
@@ -115,49 +107,25 @@ module.exports = {
             }
             return res.status(200).json({
                 success : 1,
-                message : "Updated successfully!"
-            })
-        })
-    },
-    updatePassword: (req, res) => {
-        const body = req.body;
-        const salt = genSaltSync(10);
-        body.password = hashSync(body.password, salt);
-        updatePassword(body, (err, results) => {
-            if(err){
-                return res.status(500).json({
-                    success : 0,
-                    message : err
-                })
-            }
-            if(!results){
-                return res.status(200).json({
-                    success : 0,
-                    message : "Failed to update password!"
-                })
-            }
-            return res.status(200).json({
-                success : 1,
-                message : "Updated successfully!"
-            })
-        })
-    },
-    forgotPassword: (req, res) => {
-        const body = req.body;
-        const salt = genSaltSync(10);
-        body.password = hashSync('1234567890', salt);
-        forgotPassword(body, (err, results) => {
-            if(err){
-                return res.status(500).json({
-                    success : 0,
-                    message : err
-                })
-            }
-            return res.status(200).json({
-                success : 1,
+                message : "Updated successfully!",
                 data : results
             })
-        });
+        })
+    },
+    logoutUser: (req, res) => {
+        const body = req.body;
+        logoutUser(body, (err, results) => {
+            if(err){
+                return res.status(500).json({
+                    success : 0,
+                    message : err
+                })
+            }
+            return res.status(200).json({
+                success : 1,
+                message : "User logout successfully!"
+            })
+        })
     },
     getUsers: (req, res) => {
         getUsers((err, results) => {
@@ -179,9 +147,9 @@ module.exports = {
             })
         })
     },
-    getUserByEmailId: (req, res) => {
+    getUserById: (req, res) => {
         const id = req.params.id;
-        getUserByEmailId(id, (err, results) => {
+        getUserById(id, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
@@ -200,19 +168,13 @@ module.exports = {
             })
         })
     },
-    deleteUser: (req, res) => {
+    deleteUserById: (req, res) => {
         const id = req.params.id;
-        deleteUser(id, (err, results) => {
+        deleteUserById(id, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
                     message : err
-                })
-            }
-            if(!results){
-                return res.status(200).json({
-                    success : 0,
-                    message : "Record not Found!"
                 })
             }
             return res.status(200).json({
@@ -220,6 +182,5 @@ module.exports = {
                 message : "User deleted successfully!"
             })
         })
-    },
-    
+    },  
 }

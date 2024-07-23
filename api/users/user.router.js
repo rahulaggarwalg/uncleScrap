@@ -1,24 +1,21 @@
 const { 
     createUser,
-    login,
-    adminLogin,
+    sendOtp,
+    verifyOtp,
     updateUser, 
-    updatePassword,
-    forgotPassword,
+    logoutUser,
     getUsers, 
-    getUserByEmailId, 
-    deleteUser,
+    getUserById, 
+    deleteUserById,
 } = require("./user.controller");
 const router = require("express").Router();
-const { checkToken } = require("../../auth/token_validation");
 
 router.post("/create",createUser);
-router.post("/login", login);
-router.post("/login/admin", adminLogin);
-router.post("/update", checkToken, updateUser);
-router.post("/update/password", checkToken, updatePassword);
-router.post("/forgot/password", forgotPassword);
-router.get("/", checkToken, getUsers);
-router.get("/:id", checkToken, getUserByEmailId);
-router.get("/delete/:id", checkToken, deleteUser);
+router.post("/sendOtp", sendOtp);
+router.post("/verifyOtp", verifyOtp);
+router.post("/update", updateUser);
+router.post("/logout", logoutUser);
+router.get("/", getUsers);
+router.get("/:id", getUserById);
+router.get("/delete/:id", deleteUserById);
 module.exports = router;

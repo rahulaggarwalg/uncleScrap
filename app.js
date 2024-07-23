@@ -8,10 +8,36 @@ const cityRouter = require("./api/city/city.router");
 const weightRouter = require("./api/weight/weight.router");
 const categoryRouter = require("./api/category/category.router");
 
+const multer = require("multer");
+const path = require("path");
+
+app.use(cors());
 app.use(express.json());
-app.use(cors({
-    origin: '*'
-}));
+app.use(express.urlencoded({ extended: true }));
+app.use("/image", express.static("image"));
+app.use(cors({origin: '*'}));
+
+let imageName = "";
+const storage = multer.diskStorage({
+  destination: path.join("./image"),
+  filename: function (req, file, cb) {
+    imageName = Date.now() + path.extname(file.originalname);
+    cb(null, imageName);
+  },
+});
+app.use(multer({
+    storage: storage,
+    limits: { fileSize: 512000 },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+            cb(null, true);
+        } else {
+        return cb(new Error('Invalid file extension!'));
+        }
+    }
+}).any());
+
+
 app.use("/api/users", userRouter);
 app.use("/api/ad", adRouter);
 app.use("/api/city", cityRouter);
