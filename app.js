@@ -7,7 +7,6 @@ const adRouter = require("./api/ad/ad.router");
 const cityRouter = require("./api/city/city.router");
 const weightRouter = require("./api/weight/weight.router");
 const categoryRouter = require("./api/category/category.router");
-
 const multer = require("multer");
 const path = require("path");
 
@@ -36,7 +35,6 @@ app.use(multer({
         }
     }
 }).any());
-
 
 app.use("/api/users", userRouter);
 app.use("/api/ad", adRouter);
