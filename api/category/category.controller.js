@@ -7,6 +7,7 @@ const {
 module.exports = {
     createCategory: (req, res) => {
         const body = req.body;
+        body.image = req.files[0].filename;
         createCategory(body, (err, results) => {
             if(err){
                 return res.status(500).json({
@@ -16,12 +17,14 @@ module.exports = {
             }
             return res.status(200).json({
                 success : 1,
-                data : results
+                data : results,
+                message : 'Category created successfully!'
             })
         });
     },
     updateCategory: (req, res) => {
         const body = req.body;
+        body.image = req.files[0].filename;
         updateCategory(body, (err, results) => {
             if(err){
                 return res.status(500).json({

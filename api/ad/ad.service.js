@@ -5,9 +5,9 @@ module.exports = {
         pool.query(
             `insert into advertisement(name, image, url) values(?,?,?)`,
             [
-                data.name,
+                data.name || '',
                 data.image,
-                data.url,
+                data.url || '',
             ],
             (error, results, fields) => {
                 if(error) {
@@ -21,9 +21,9 @@ module.exports = {
         pool.query(
             `update advertisement set name=?, image=?, url=?, is_active=? where id = '${data.id}'`,
             [
-                data.name,
+                data.name || '',
                 data.image,
-                data.url,
+                data.url || '',
                 data.is_active
             ],
             (error, results, fields) => {
