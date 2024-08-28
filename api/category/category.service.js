@@ -9,8 +9,8 @@ module.exports = {
                 data.parent_id || 0,
                 data.image || '',
                 data.label || '',
-                data.price,
-                data.weight_id
+                data.price || '',
+                data.weight_id || ''
             ],
             (error, results, fields) => {
                 if(error) {
