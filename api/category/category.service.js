@@ -10,8 +10,7 @@ module.exports = {
                 data.image || '',
                 data.label || '',
                 data.price,
-                data.weight_id,
-                data.is_active
+                data.weight_id
             ],
             (error, results, fields) => {
                 if(error) {
@@ -27,8 +26,8 @@ module.exports = {
             [
                 data.name,
                 data.parent_id,
-                data.image,
-                data.label,
+                data.image || '',
+                data.label || '',
                 data.price,
                 data.weight_id,
                 data.is_active
