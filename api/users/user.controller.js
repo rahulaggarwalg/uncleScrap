@@ -54,7 +54,8 @@ module.exports = {
             if(err){
                 return res.status(500).json({
                     success : 0,
-                    message : err
+                    message : err,
+                    data : results || []
                 })
             }
             deliverOtp(body);

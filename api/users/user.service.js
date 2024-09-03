@@ -48,7 +48,7 @@ module.exports = {
                 }else{
                     if(results[0].token){
                         message = 'User is already login!';
-                        return callBack(message);
+                        return callBack(message, results);
                     }
                     pool.query(
                         `update user set otp=?, is_verify='' where (email = '${data.email || ''}' or mobile = ${data.mobile || ''})`,
