@@ -10,7 +10,8 @@ module.exports = {
                 data.image || '',
                 data.label || '',
                 data.price || '',
-                data.weight_id || ''
+                data.weight_id || '',
+                data.is_active || 0
             ],
             (error, results, fields) => {
                 if(error) {
