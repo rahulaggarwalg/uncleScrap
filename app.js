@@ -10,7 +10,6 @@ const categoryRouter = require("./api/category/category.router");
 const multer = require("multer");
 const path = require("path");
 
-app.use(cors());
 const corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
