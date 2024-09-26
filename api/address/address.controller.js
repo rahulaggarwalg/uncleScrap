@@ -1,8 +1,6 @@
 const { 
     createAddress, 
-    updateAddress, 
-    getAddress, 
-    getAddressById,
+    getAddressByUserId,
     deleteAddressById,
 } = require("./address.service");
 
@@ -22,50 +20,9 @@ module.exports = {
             })
         });
     },
-    updateAddress: (req, res) => {
-        const body = req.body;
-        updateAddress(body, (err, results) => {
-            if(err){
-                return res.status(500).json({
-                    success : 0,
-                    message : err
-                })
-            }
-            if(!results){
-                return res.status(200).json({
-                    success : 0,
-                    message : "Failed to update weight!"
-                })
-            }
-            return res.status(200).json({
-                success : 1,
-                message : "Updated successfully!"
-            })
-        })
-    },
-    getAddress: (req, res) => {
-        getAddress((err, results) => {
-            if(err){
-                return res.status(500).json({
-                    success : 0,
-                    message : err
-                })
-            }
-            if(!results){
-                return res.status(200).json({
-                    success : 0,
-                    message : "Record not Found!"
-                })
-            }
-            return res.status(200).json({
-                success : 1,
-                data : results
-            })
-        })
-    },
-    getAddressById: (req, res) => {
+    getAddressByUserId: (req, res) => {
         const id = req.params.id;
-        getAddressById(id, (err, results) => {
+        getAddressByUserId(id, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
