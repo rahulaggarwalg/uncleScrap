@@ -2,6 +2,7 @@ const {
     createCategory, 
     updateCategory, 
     getCategory, 
+    getCategoryForWeb,
 } = require("./category.service");
 
 module.exports = {
@@ -46,6 +47,26 @@ module.exports = {
     },
     getCategory: (req, res) => {
         getCategory((err, results) => {
+            if(err){
+                return res.status(500).json({
+                    success : 0,
+                    message : err
+                })
+            }
+            if(!results){
+                return res.status(200).json({
+                    success : 0,
+                    message : "Record not Found!"
+                })
+            }
+            return res.status(200).json({
+                success : 1,
+                data : results
+            })
+        })
+    },
+    getCategoryForWeb: (req, res) => {
+        getCategoryForWeb((err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
