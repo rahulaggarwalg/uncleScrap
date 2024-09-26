@@ -7,6 +7,8 @@ const adRouter = require("./api/ad/ad.router");
 const cityRouter = require("./api/city/city.router");
 const weightRouter = require("./api/weight/weight.router");
 const categoryRouter = require("./api/category/category.router");
+const pickupRouter = require("./api/pickup/pickup.router");
+const addressRouter = require("./api/address/address.router");
 const multer = require("multer");
 const path = require("path");
 
@@ -47,6 +49,8 @@ app.use("/api/ad", adRouter);
 app.use("/api/city", cityRouter);
 app.use("/api/weight", weightRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/pickup", pickupRouter);
+app.use("/api/address", addressRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server Up & Running On PORT : ", process.env.PORT);
