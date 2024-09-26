@@ -43,7 +43,7 @@ module.exports = {
     },
     getCategory: callBack => {
         pool.query(
-            `select c.id, c.name, c.parent_id, ic.name as category, c.image, c.label, c.price, w.name as weight, c.weight_id, c.is_active, c.created_at from category c join weight_master w ON c.weight_id = w.id left join category ic ON c.parent_id = ic.id;`,
+            `select c.id, c.name, c.parent_id, ic.name as category, c.image, c.label, c.price, w.name as weight, c.weight_id, c.is_active, c.created_at from category c join weight_master w ON c.weight_id = w.id left join category ic ON c.parent_id = ic.id where c.parent_id <> 0;`,
             [],
             (error, results, fields) => {
                 if(error) {
