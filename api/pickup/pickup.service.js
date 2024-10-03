@@ -33,7 +33,7 @@ module.exports = {
     },
     getPickup: callBack => {
         pool.query(
-            `select p.id, p.user_id, p.weight, p.message, p.date, p.time, p.is_active, p.created_at, 
+            `select p.id, p.user_id, p.weight, p.message, p.date, p.time, p.status, p.is_active, p.created_at, 
             c.name as categoryName, c.id as categoryId, 
             w.name as weightName, w.id as weightId, 
             a.id as addressId, a.address_type, a.address_line_1, a.address_line_2, a.pincode, 

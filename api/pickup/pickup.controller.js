@@ -32,7 +32,7 @@ module.exports = {
             if(!results){
                 return res.status(200).json({
                     success : 0,
-                    message : "Failed to update weight!"
+                    message : "Failed to update pickup!"
                 })
             }
             return res.status(200).json({
