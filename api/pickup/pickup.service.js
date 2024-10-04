@@ -3,10 +3,16 @@ const pool = require("../../config/database");
 module.exports = {
     createPickup: (data, callBack) => {
         pool.query(
-            `insert into pickup(name, is_active) values(?,?)`,
+            `insert into pickup(user_id, category_id, weight, weight_id, address_id, message, date, time) values(?,?,?,?,?,?,?,?)`,
             [
-                data.name,
-                data.is_active
+                data.user_id,
+                data.category_id,
+                data.weight,
+                data.weight_id,
+                data.address_id,
+                data.message || '',
+                data.date,
+                data.time
             ],
             (error, results, fields) => {
                 if(error) {
@@ -18,9 +24,16 @@ module.exports = {
     },
     updatePickup: (data, callBack) => {
         pool.query(
-            `update pickup set name=?, is_active=? where id = '${data.id}'`,
+            `update pickup set category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=?, status=?, is_active=? where id = '${data.id}'`,
             [
-                data.name,
+                data.category_id,
+                data.weight,
+                data.weight_id,
+                data.address_id,
+                data.message || '',
+                data.date,
+                data.time,
+                data.staus,
                 data.is_active
             ],
             (error, results, fields) => {

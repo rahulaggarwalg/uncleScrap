@@ -7,7 +7,7 @@ const {
 const router = require("express").Router();
 
 router.post("/create", createPickup);
-router.post("/update", updatePickup);
+router.post("/update/:id", updatePickup);
 router.get("/:id", getPickupById);
 router.get("/", getPickup);
 module.exports = router;
