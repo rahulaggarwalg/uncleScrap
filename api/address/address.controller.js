@@ -1,5 +1,6 @@
 const { 
     createAddress, 
+    updateAddress, 
     getAddressByUserId,
     deleteAddressById,
 } = require("./address.service");
@@ -17,6 +18,27 @@ module.exports = {
             return res.status(200).json({
                 success : 1,
                 data : results
+            })
+        });
+    },
+    updateAddress: (req, res) => {
+        const body = req.body;
+        updateAddress(body, (err, results) => {
+            if(err){
+                return res.status(500).json({
+                    success : 0,
+                    message : err
+                })
+            }
+            if(!results){
+                return res.status(200).json({
+                    success : 0,
+                    message : "Failed to update address!"
+                })
+            }
+            return res.status(200).json({
+                success : 1,
+                message : "Updated successfully!"
             })
         });
     },
