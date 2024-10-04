@@ -1,6 +1,7 @@
 const { 
     createPickup, 
-    updatePickup, 
+    updatePickup,
+    getPickupById, 
     getPickup, 
 } = require("./pickup.service");
 
@@ -38,6 +39,27 @@ module.exports = {
             return res.status(200).json({
                 success : 1,
                 message : "Updated successfully!"
+            })
+        })
+    },
+    getPickupById: (req, res) => {
+        const id = req.params.id;
+        getPickupById(id, (err, results) => {
+            if(err){
+                return res.status(500).json({
+                    success : 0,
+                    message : err
+                })
+            }
+            if(!results){
+                return res.status(200).json({
+                    success : 0,
+                    message : "Record not Found!"
+                })
+            }
+            return res.status(200).json({
+                success : 1,
+                data : results
             })
         })
     },
