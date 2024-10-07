@@ -40,7 +40,7 @@ module.exports = {
     },
     getAddressByUserId: (id, callBack) => {
         pool.query(
-            `select a.id, a.user_id, a.address_type, a.address_line_1, a.address_line_2, a.pincode, a.city_id, a.created_at, c.name as city from address a join city c ON a.city_id = c.id where a.user_id = ?`,
+            `select a.id, a.user_id, a.address_type, a.address_line_1, a.address_line_2, a.pincode, a.city_id, a.created_at, c.name as city from address a join city c ON a.city_id = c.id where a.user_id = ? and a.is_active = 1`,
             [id],
             (error, results, fields) => {
                 if(error) {
@@ -52,7 +52,7 @@ module.exports = {
     },
     deleteAddressById: (id, callBack) => {
         pool.query(
-            `delete from address where id = ?`,
+            `update address set is_active = 0 where id = ?`,
             [id],
             (error, results, fields) => {
                 if(error) {
