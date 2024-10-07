@@ -43,8 +43,8 @@ module.exports = {
         })
     },
     getPickupById: (req, res) => {
-        const id = req.params.id;
-        getPickupById(id, (err, results) => {
+        const data = req.params;
+        getPickupById(data, (err, results) => {
             if(err){
                 return res.status(500).json({
                     success : 0,
