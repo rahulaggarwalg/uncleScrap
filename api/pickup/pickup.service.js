@@ -2,25 +2,47 @@ const pool = require("../../config/database");
 
 module.exports = {
     createPickup: (data, callBack) => {
-        pool.query(
-            `insert into pickup(user_id, category_id, weight, weight_id, address_id, message, date, time) values(?,?,?,?,?,?,?,?)`,
-            [
-                data.user_id,
-                data.category_id,
-                data.weight,
-                data.weight_id,
-                data.address_id,
-                data.message || '',
-                data.date,
-                data.time
-            ],
-            (error, results, fields) => {
-                if(error) {
-                    return callBack(error);
+        if(data.pickup_id){
+            pool.query(
+                `update pickup set user_id=?, category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=? where id = '${data.pickup_id}'`,
+                [
+                    data.user_id,
+                    data.category_id,
+                    data.weight,
+                    data.weight_id,
+                    data.address_id,
+                    data.message || '',
+                    data.date,
+                    data.time
+                ],
+                (error, results, fields) => {
+                    if(error) {
+                        return callBack(error);
+                    }
+                    return callBack(null, results)
                 }
-                return callBack(null, results)
-            }
-        );
+            );
+        }else{
+            pool.query(
+                `insert into pickup(user_id, category_id, weight, weight_id, address_id, message, date, time) values(?,?,?,?,?,?,?,?)`,
+                [
+                    data.user_id,
+                    data.category_id,
+                    data.weight,
+                    data.weight_id,
+                    data.address_id,
+                    data.message || '',
+                    data.date,
+                    data.time
+                ],
+                (error, results, fields) => {
+                    if(error) {
+                        return callBack(error);
+                    }
+                    return callBack(null, results)
+                }
+            );
+        }
     },
     updatePickup: (data, callBack) => {
         pool.query(
