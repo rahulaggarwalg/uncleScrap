@@ -2,18 +2,18 @@ const pool = require("../../config/database");
 
 module.exports = {
     createPickup: (data, callBack) => {
-        if(data.pickup_id){
+        if(data[0].pickup_id){
             pool.query(
-                `update pickup set user_id=?, category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=? where id = '${data.pickup_id}'`,
+                `update pickup set user_id=?, category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=? where id = '${data[0].pickup_id}'`,
                 [
-                    data.user_id,
-                    data.category_id,
-                    data.weight,
-                    data.weight_id,
-                    data.address_id,
-                    data.message || '',
-                    data.date,
-                    data.time
+                    data[0].user_id,
+                    data[0].category_id,
+                    data[0].weight,
+                    data[0].weight_id,
+                    data[0].address_id,
+                    data[0].message || '',
+                    data[0].date,
+                    data[0].time
                 ],
                 (error, results, fields) => {
                     if(error) {
@@ -23,25 +23,27 @@ module.exports = {
                 }
             );
         }else{
-            pool.query(
-                `insert into pickup(user_id, category_id, weight, weight_id, address_id, message, date, time) values(?,?,?,?,?,?,?,?)`,
-                [
-                    data.user_id,
-                    data.category_id,
-                    data.weight,
-                    data.weight_id,
-                    data.address_id,
-                    data.message || '',
-                    data.date,
-                    data.time
-                ],
-                (error, results, fields) => {
-                    if(error) {
-                        return callBack(error);
+            for (var i=0; i<data.length; i++) {
+                pool.query(
+                    `insert into pickup(user_id, category_id, weight, weight_id, address_id, message, date, time) values(?,?,?,?,?,?,?,?)`,
+                    [
+                        data[i].user_id,
+                        data[i].category_id,
+                        data[i].weight,
+                        data[i].weight_id,
+                        data[i].address_id,
+                        data[i].message || '',
+                        data[i].date,
+                        data[i].time
+                    ],
+                    (error, results, fields) => {
+                        if(error) {
+                            return callBack(error);
+                        }
                     }
-                    return callBack(null, results)
-                }
-            );
+                );   
+            }
+            return callBack(null, 'Pickup created successfully')
         }
     },
     updatePickup: (data, callBack) => {
