@@ -2,15 +2,15 @@ const pool = require("../../config/database");
 
 module.exports = {
     createPickup: (data, callBack) => {
-        if(data[0].pickup_id){
+        if(data[0].pickupId && data[0].pickupId != ""){
             pool.query(
-                `update pickup set user_id=?, category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=? where id = '${data[0].pickup_id}'`,
+                `update pickup set user_id=?, category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=? where id = '${data[0].pickupId}'`,
                 [
-                    data[0].user_id,
-                    data[0].category_id,
+                    data[0].userId,
+                    data[0].categoryId,
                     data[0].weight,
-                    data[0].weight_id,
-                    data[0].address_id,
+                    data[0].weightId,
+                    data[0].addressId,
                     data[0].message || '',
                     data[0].date,
                     data[0].time
@@ -27,11 +27,11 @@ module.exports = {
                 pool.query(
                     `insert into pickup(user_id, category_id, weight, weight_id, address_id, message, date, time) values(?,?,?,?,?,?,?,?)`,
                     [
-                        data[i].user_id,
-                        data[i].category_id,
+                        data[i].userId,
+                        data[i].categoryId,
                         data[i].weight,
-                        data[i].weight_id,
-                        data[i].address_id,
+                        data[i].weightId,
+                        data[i].addressId,
                         data[i].message || '',
                         data[i].date,
                         data[i].time
@@ -50,10 +50,10 @@ module.exports = {
         pool.query(
             `update pickup set category_id=?, weight=?, weight_id=?, address_id=?, message=?, date=?, time=?, status=?, is_active=? where id = '${data.id}'`,
             [
-                data.category_id,
+                data.categoryId,
                 data.weight,
-                data.weight_id,
-                data.address_id,
+                data.weightId,
+                data.addressId,
                 data.message || '',
                 data.date,
                 data.time,
