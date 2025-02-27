@@ -1,6 +1,7 @@
 const pool = require("../../config/database");
 
 module.exports = {
+    
     createPickup: (data, callBack) => {
         if(data[0].pickupId && data[0].pickupId != ""){
             pool.query(
