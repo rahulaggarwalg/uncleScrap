@@ -36,7 +36,7 @@ app.use(multer({
     storage: storage,
     limits: { fileSize: 512000 },
     fileFilter: (req, file, cb) => {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/svg+xml" || file.mimetype == "image/JPG" || file.mimetype == "image/JPEG") {
             cb(null, true);
         } else {
         return cb(new Error('Invalid file extension!'));
