@@ -58,7 +58,7 @@ module.exports = {
                 data.message || '',
                 data.date,
                 data.time,
-                data.staus,
+                data.status,
                 data.is_active
             ],
             (error, results, fields) => {
