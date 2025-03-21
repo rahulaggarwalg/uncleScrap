@@ -25,7 +25,7 @@ module.exports = {
     },
     updateCategory: (req, res) => {
         const body = req.body;
-        body.image = req.files[0].filename;
+        body.image = req.files && req.files[0] ? req.files[0].filename : req.body.image;
         updateCategory(body, (err, results) => {
             if(err){
                 return res.status(500).json({

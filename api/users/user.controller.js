@@ -85,7 +85,7 @@ module.exports = {
     },
     updateUser: (req, res) => {
         const body = req.body;
-        body.image = req.files[0].filename; 
+        body.image = req.files && req.files[0] ? req.files[0].filename : req.body.image; 
         body.token = req.get("authorization").split(" ")[1];
         if(!body.token){
             return res.status(500).json({
